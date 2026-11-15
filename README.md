@@ -5,13 +5,13 @@ Todas corren **100% en el navegador**: tus archivos no se suben a ningún servid
 
 ## Sitio
 
-- Inicio: https://andreyrivera13.github.io/herramientas-diarias/
-- Video a MP3: https://andreyrivera13.github.io/herramientas-diarias/tools/01-video-a-mp3/
-- Compresor de imágenes: https://andreyrivera13.github.io/herramientas-diarias/tools/02-compresor-de-imagenes/
-- Convertidor de formatos de imagen: https://andreyrivera13.github.io/herramientas-diarias/tools/03-convertidor-de-imagenes/
-- Generador de códigos QR: https://andreyrivera13.github.io/herramientas-diarias/tools/04-generador-de-qr/
-- Formateador y validador de JSON: https://andreyrivera13.github.io/herramientas-diarias/tools/05-formateador-json/
-- Codificador y decodificador Base64: https://andreyrivera13.github.io/herramientas-diarias/tools/06-base64/
+- Inicio: https://andreyrivera13.github.io/herramientas/
+- Video a MP3: https://andreyrivera13.github.io/herramientas/tools/01-video-a-mp3/
+- Compresor de imágenes: https://andreyrivera13.github.io/herramientas/tools/02-compresor-de-imagenes/
+- Convertidor de formatos de imagen: https://andreyrivera13.github.io/herramientas/tools/03-convertidor-de-imagenes/
+- Generador de códigos QR: https://andreyrivera13.github.io/herramientas/tools/04-generador-de-qr/
+- Formateador y validador de JSON: https://andreyrivera13.github.io/herramientas/tools/05-formateador-json/
+- Codificador y decodificador Base64: https://andreyrivera13.github.io/herramientas/tools/06-base64/
 
 ## Estructura
 
