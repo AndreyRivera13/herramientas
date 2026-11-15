@@ -1,4 +1,4 @@
-/* Día 04 · Generador de códigos QR — 100% en el navegador (qrcode-generator, MIT, incluido en vendor/). */
+/* Generador de códigos QR — 100% en el navegador (qrcode-generator, MIT, incluido en vendor/). */
 (function () {
   'use strict';
 

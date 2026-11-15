@@ -1,4 +1,4 @@
-/* Día 05 · Formateador y validador de JSON — 100% en el navegador, JavaScript puro. */
+/* Formateador y validador de JSON — 100% en el navegador, JavaScript puro. */
 (function () {
   'use strict';
 
@@ -366,7 +366,7 @@
   });
 
   $('sampleBtn').addEventListener('click', function () {
-    input.value = '{"nombre":"Andrey Tech","dia":5,"herramientas":["Video a MP3","Compresor de imágenes","Convertidor de imágenes","Generador de QR","Formateador de JSON"],"activo":true,"meta":{"pais":"Colombia","zona":"America/Bogota","version":1.5},"notas":null}';
+    input.value = '{"nombre":"Andrey Tech","herramientas":["Video a MP3","Compresor de imágenes","Convertidor de imágenes","Generador de QR","Formateador de JSON"],"activo":true,"meta":{"pais":"Colombia","zona":"America/Bogota","version":1.5},"notas":null}';
     fileName = 'ejemplo';
     run('pretty');
   });

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Herramientas diarias · Andrey Tech</title>
-  <meta name="description" content="Una herramienta web nueva cada día. Gratuitas, privadas y 100% en tu navegador." />
+  <title>Herramientas web · Andrey Tech</title>
+  <meta name="description" content="Herramientas útiles que funcionan 100% en tu navegador, sin subir tus archivos." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -87,7 +87,7 @@
       border-color: rgba(110,231,183,.45);
       box-shadow: 0 18px 40px rgba(0,0,0,.35), 0 0 0 1px rgba(110,231,183,.12);
     }
-    .day {
+    .date {
       font-family: "JetBrains Mono", monospace;
       font-size: 0.78rem; letter-spacing: .06em; text-transform: uppercase;
       color: var(--accent2);
@@ -119,10 +119,9 @@
         <span class="pill">Andrey Tech</span>
         <span class="pill alt">100% en el navegador</span>
       </div>
-      <h1>Herramientas <span>diarias</span></h1>
+      <h1>Herramientas <span>web</span></h1>
       <p class="lead">
-        Una herramienta nueva cada día para desarrolladores y para el día a día.
-        Privadas, rápidas y sin subir tus archivos a ningún servidor.
+        Herramientas útiles que funcionan 100% en tu navegador, sin subir tus archivos.
       </p>
     </header>
 
@@ -132,12 +131,12 @@
       </div>
       <noscript>
         <div class="grid">
-          <a class="card" href="tools/06-base64/"><div class="day">Día 06 · 14 nov 2026</div><h2>Codificador y decodificador Base64</h2><p>Codifica y decodifica Base64 con soporte UTF‑8 y URL‑safe, y convierte archivos a Base64 o Data URI y de vuelta.</p><span class="cta">Abrir herramienta →</span></a>
-          <a class="card" href="tools/05-formateador-json/"><div class="day">Día 05 · 13 nov 2026</div><h2>Formateador y validador de JSON</h2><p>Valida tu JSON con errores que indican línea y columna, y formatéalo, minifícalo u ordena sus claves para copiarlo o descargarlo.</p><span class="cta">Abrir herramienta →</span></a>
-          <a class="card" href="tools/04-generador-de-qr/"><div class="day">Día 04 · 12 nov 2026</div><h2>Generador de códigos QR</h2><p>Crea códigos QR para enlaces, texto, redes Wi‑Fi, correos, teléfonos y WhatsApp, con descarga en PNG o SVG.</p><span class="cta">Abrir herramienta →</span></a>
-          <a class="card" href="tools/03-convertidor-de-imagenes/"><div class="day">Día 03 · 11 nov 2026</div><h2>Convertidor de formatos de imagen</h2><p>Convierte imágenes entre PNG, JPEG, WebP y BMP, con fondo para la transparencia y descarga en ZIP.</p><span class="cta">Abrir herramienta →</span></a>
-          <a class="card" href="tools/02-compresor-de-imagenes/"><div class="day">Día 02 · 10 nov 2026</div><h2>Compresor de imágenes</h2><p>Reduce el peso de tus fotos JPEG, PNG o WebP con control de calidad y ancho máximo.</p><span class="cta">Abrir herramienta →</span></a>
-          <a class="card" href="tools/01-video-a-mp3/"><div class="day">Día 01 · 9 nov 2026</div><h2>Video a MP3</h2><p>Extrae el audio de un video o archivo de sonido y descárgalo en MP3.</p><span class="cta">Abrir herramienta →</span></a>
+          <a class="card" href="tools/06-base64/"><div class="date">14 nov 2026</div><h2>Codificador y decodificador Base64</h2><p>Codifica y decodifica Base64 con soporte UTF‑8 y URL‑safe, y convierte archivos a Base64 o Data URI y de vuelta.</p><span class="cta">Abrir herramienta →</span></a>
+          <a class="card" href="tools/05-formateador-json/"><div class="date">13 nov 2026</div><h2>Formateador y validador de JSON</h2><p>Valida tu JSON con errores que indican línea y columna, y formatéalo, minifícalo u ordena sus claves para copiarlo o descargarlo.</p><span class="cta">Abrir herramienta →</span></a>
+          <a class="card" href="tools/04-generador-de-qr/"><div class="date">12 nov 2026</div><h2>Generador de códigos QR</h2><p>Crea códigos QR para enlaces, texto, redes Wi‑Fi, correos, teléfonos y WhatsApp, con descarga en PNG o SVG.</p><span class="cta">Abrir herramienta →</span></a>
+          <a class="card" href="tools/03-convertidor-de-imagenes/"><div class="date">11 nov 2026</div><h2>Convertidor de formatos de imagen</h2><p>Convierte imágenes entre PNG, JPEG, WebP y BMP, con fondo para la transparencia y descarga en ZIP.</p><span class="cta">Abrir herramienta →</span></a>
+          <a class="card" href="tools/02-compresor-de-imagenes/"><div class="date">10 nov 2026</div><h2>Compresor de imágenes</h2><p>Reduce el peso de tus fotos JPEG, PNG o WebP con control de calidad y ancho máximo.</p><span class="cta">Abrir herramienta →</span></a>
+          <a class="card" href="tools/01-video-a-mp3/"><div class="date">9 nov 2026</div><h2>Video a MP3</h2><p>Extrae el audio de un video o archivo de sonido y descárgalo en MP3.</p><span class="cta">Abrir herramienta →</span></a>
         </div>
       </noscript>
     </main>
@@ -169,7 +168,7 @@
             var href = t.path || ('tools/' + pad(t.day) + '-' + t.slug + '/');
             return (
               '<a class="card" href="' + href + '">' +
-                '<div class="day">Día ' + pad(t.day) + ' · ' + fmtDate(t.date) + '</div>' +
+                '<div class="date">' + fmtDate(t.date) + '</div>' +
                 '<h2>' + t.name + '</h2>' +
                 '<p>' + t.description + '</p>' +
                 '<span class="cta">Abrir herramienta →</span>' +

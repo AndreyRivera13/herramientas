@@ -3,11 +3,11 @@
 Lista ordenada de ideas. Todas deben ser **100% en el navegador** y legales
 (sin descargar ni rippear contenido de servicios de terceros).
 
-1. ~~Compresor de imágenes (JPEG/PNG/WebP, control de calidad)~~ ✅ Día 02 (2026-11-10)
-2. ~~Convertidor de formatos de imagen (PNG ↔ JPEG ↔ WebP ↔ BMP)~~ ✅ Día 03 (2026-11-11)
-3. ~~Generador de códigos QR (texto, URL, Wi‑Fi)~~ ✅ Día 04 (2026-11-12)
-4. ~~Formateador y validador de JSON~~ ✅ Día 05 (2026-11-13)
-5. ~~Codificador / decodificador Base64 (texto y archivos)~~ ✅ Día 06 (2026-11-14)
+1. ~~Compresor de imágenes (JPEG/PNG/WebP, control de calidad)~~ ✅ (2026-11-10)
+2. ~~Convertidor de formatos de imagen (PNG ↔ JPEG ↔ WebP ↔ BMP)~~ ✅ (2026-11-11)
+3. ~~Generador de códigos QR (texto, URL, Wi‑Fi)~~ ✅ (2026-11-12)
+4. ~~Formateador y validador de JSON~~ ✅ (2026-11-13)
+5. ~~Codificador / decodificador Base64 (texto y archivos)~~ ✅ (2026-11-14)
 6. Decodificador de JWT (solo lectura del payload, sin verificar firma en servidor)
 7. Generador de contraseñas seguras
 8. Probador de expresiones regulares (regex)

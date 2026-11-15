@@ -1,4 +1,4 @@
-/* Día 02 · Compresor de imágenes — 100% en el navegador (Canvas + toBlob). */
+/* Compresor de imágenes — 100% en el navegador (Canvas + toBlob). */
 (function () {
   'use strict';
 

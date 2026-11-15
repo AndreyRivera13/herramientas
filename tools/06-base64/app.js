@@ -1,4 +1,4 @@
-/* Día 06 · Codificador y decodificador Base64 — 100% en el navegador, JavaScript puro. */
+/* Codificador y decodificador Base64 — 100% en el navegador, JavaScript puro. */
 (function () {
   'use strict';
 

@@ -1,4 +1,4 @@
-/* Día 03 · Convertidor de formatos de imagen — 100% en el navegador (Canvas + codificador BMP propio). */
+/* Convertidor de formatos de imagen — 100% en el navegador (Canvas + codificador BMP propio). */
 (function () {
   'use strict';
 

@@ -1,17 +1,17 @@
-# Herramientas diarias · Andrey Tech
+# Herramientas web · Andrey Tech
 
-Colección de **herramientas web gratuitas**, una nueva cada día.
+Colección de **herramientas web gratuitas**.
 Todas corren **100% en el navegador**: tus archivos no se suben a ningún servidor.
 
 ## Sitio
 
-- Landing: https://andreyrivera13.github.io/herramientas-diarias/
-- Día 01 — Video a MP3: https://andreyrivera13.github.io/herramientas-diarias/tools/01-video-a-mp3/
-- Día 02 — Compresor de imágenes: https://andreyrivera13.github.io/herramientas-diarias/tools/02-compresor-de-imagenes/
-- Día 03 — Convertidor de formatos de imagen: https://andreyrivera13.github.io/herramientas-diarias/tools/03-convertidor-de-imagenes/
-- Día 04 — Generador de códigos QR: https://andreyrivera13.github.io/herramientas-diarias/tools/04-generador-de-qr/
-- Día 05 — Formateador y validador de JSON: https://andreyrivera13.github.io/herramientas-diarias/tools/05-formateador-json/
-- Día 06 — Codificador y decodificador Base64: https://andreyrivera13.github.io/herramientas-diarias/tools/06-base64/
+- Inicio: https://andreyrivera13.github.io/herramientas-diarias/
+- Video a MP3: https://andreyrivera13.github.io/herramientas-diarias/tools/01-video-a-mp3/
+- Compresor de imágenes: https://andreyrivera13.github.io/herramientas-diarias/tools/02-compresor-de-imagenes/
+- Convertidor de formatos de imagen: https://andreyrivera13.github.io/herramientas-diarias/tools/03-convertidor-de-imagenes/
+- Generador de códigos QR: https://andreyrivera13.github.io/herramientas-diarias/tools/04-generador-de-qr/
+- Formateador y validador de JSON: https://andreyrivera13.github.io/herramientas-diarias/tools/05-formateador-json/
+- Codificador y decodificador Base64: https://andreyrivera13.github.io/herramientas-diarias/tools/06-base64/
 
 ## Estructura
 
@@ -19,7 +19,7 @@ Todas corren **100% en el navegador**: tus archivos no se suben a ningún servid
 index.html          # Catálogo
 tools.json          # Manifiesto de herramientas publicadas
 tools/<NN>-<slug>/  # Cada herramienta (estática)
-BACKLOG.md          # Ideas para los próximos días
+BACKLOG.md          # Ideas de herramientas
 ```
 
 ## Principios
