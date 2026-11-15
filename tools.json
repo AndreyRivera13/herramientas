@@ -46,5 +46,13 @@
     "name": "Codificador y decodificador Base64",
     "description": "Codifica y decodifica Base64 con soporte UTF‑8 y variante URL‑safe, convierte archivos a Base64 o Data URI y reconstruye archivos desde Base64. Todo ocurre en tu navegador.",
     "path": "tools/06-base64/"
+  },
+  {
+    "day": 7,
+    "date": "2026-11-15",
+    "slug": "decodificador-jwt",
+    "name": "Decodificador de JWT",
+    "description": "Decodifica tokens JWT para ver encabezado, payload y claims con fechas legibles, detecta si expiraron y verifica firmas HMAC (HS256/384/512). Todo ocurre en tu navegador.",
+    "path": "tools/07-decodificador-jwt/"
   }
 ]

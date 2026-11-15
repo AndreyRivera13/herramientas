@@ -12,6 +12,7 @@ Todas corren **100% en el navegador**: tus archivos no se suben a ningún servid
 - Generador de códigos QR: https://andreyrivera13.github.io/herramientas/tools/04-generador-de-qr/
 - Formateador y validador de JSON: https://andreyrivera13.github.io/herramientas/tools/05-formateador-json/
 - Codificador y decodificador Base64: https://andreyrivera13.github.io/herramientas/tools/06-base64/
+- Decodificador de JWT: https://andreyrivera13.github.io/herramientas/tools/07-decodificador-jwt/
 
 ## Estructura
 
