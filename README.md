@@ -13,6 +13,7 @@ Todas corren **100% en el navegador**: tus archivos no se suben a ningún servid
 - Formateador y validador de JSON: https://andreyrivera13.github.io/herramientas/tools/05-formateador-json/
 - Codificador y decodificador Base64: https://andreyrivera13.github.io/herramientas/tools/06-base64/
 - Decodificador de JWT: https://andreyrivera13.github.io/herramientas/tools/07-decodificador-jwt/
+- Generador de contraseñas seguras: https://andreyrivera13.github.io/herramientas/tools/08-generador-de-contrasenas/
 
 ## Estructura
 

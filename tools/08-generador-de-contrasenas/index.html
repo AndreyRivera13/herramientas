@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Generador de contraseñas seguras — Herramientas web</title>
+  <meta name="description" content="Genera contraseñas aleatorias, frases de contraseña en español y PIN con aleatoriedad criptográfica, y analiza la fortaleza de tus contraseñas. Todo ocurre en tu navegador." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg2: #0d1424;
+      --card: #121a2b;
+      --border: #243049;
+      --text: #e8eefc;
+      --muted: #93a0bd;
+      --accent: #6ee7b7;
+      --accent2: #38bdf8;
+      --danger: #fb7185;
+      --warn: #fbbf24;
+      --glow: rgba(110, 231, 183, 0.25);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(56, 189, 248, 0.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(110, 231, 183, 0.14), transparent 55%),
+        var(--bg);
+      line-height: 1.5;
+    }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 28px 20px 64px; }
+    .topnav { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 600; }
+    .brand:hover { text-decoration: none; }
+    .logo {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: grid; place-items: center; color: #041018; font-weight: 700; font-size: 14px;
+      box-shadow: 0 0 24px var(--glow);
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
+      background: rgba(110, 231, 183, 0.1); border: 1px solid rgba(110, 231, 183, 0.35);
+      color: var(--accent); font-size: 13px; font-weight: 500;
+    }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 0 0 8px; letter-spacing: -0.03em; }
+    .lead { color: var(--muted); margin: 0 0 24px; font-size: 1.05rem; }
+    .privacy {
+      display: flex; gap: 10px; align-items: flex-start; padding: 14px 16px; border-radius: 14px;
+      background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.28);
+      margin-bottom: 22px; color: #c7e9ff; font-size: 0.95rem;
+    }
+    .privacy strong { color: var(--accent2); }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 40%), var(--card);
+      border: 1px solid var(--border); border-radius: var(--radius); padding: 22px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+    .pane { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+    .pane-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .pane-head h2 { margin: 0; font-size: 1rem; }
+    .meta { color: var(--muted); font-size: 0.8rem; font-family: "JetBrains Mono", monospace; }
+    textarea.code {
+      background: var(--bg2); color: var(--text); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 14px; width: 100%; min-height: 360px; resize: vertical;
+      font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.85rem; line-height: 1.5;
+      tab-size: 4; white-space: pre; overflow: auto;
+    }
+    textarea.code:focus { outline: none; border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(56,189,248,.15); }
+    textarea.code.invalid { border-color: rgba(251,113,133,.6); }
+    textarea.code.valid { border-color: rgba(110,231,183,.5); }
+    .drop { position: relative; }
+    .drop.over textarea.code { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .toolbar .grow { flex: 1 1 auto; }
+    label.field { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; color: var(--muted); }
+    label.check { display: flex; gap: 8px; align-items: center; font-size: 0.92rem; color: var(--muted); cursor: pointer; padding: 10px 0; }
+    label.check input { accent-color: var(--accent); width: 18px; height: 18px; }
+    select {
+      appearance: none; background: var(--bg2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%2393a0bd' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E") no-repeat right 12px center;
+      color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 11px 36px 11px 14px; font: inherit;
+    }
+    select:focus { outline: none; border-color: var(--accent2); }
+    button, .btn {
+      appearance: none; border: none; cursor: pointer; font: inherit; font-weight: 600;
+      border-radius: 12px; padding: 11px 16px; transition: transform .12s, opacity .12s, box-shadow .12s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;
+    }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .primary { background: linear-gradient(135deg, var(--accent), #34d399); color: #042016; box-shadow: 0 8px 28px var(--glow); }
+    .primary:hover:not(:disabled) { transform: translateY(-1px); }
+    .ghost { background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #dff4ff; }
+    .ghost:hover:not(:disabled) { background: rgba(56, 189, 248, 0.2); }
+    .subtle { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .subtle:hover:not(:disabled) { color: var(--text); border-color: var(--accent2); }
+    .small { padding: 7px 12px; font-size: 0.85rem; border-radius: 10px; }
+    .btnrow { display: flex; flex-wrap: wrap; gap: 8px; }
+    input[type="file"] { display: none; }
+    .status { min-height: 1.4em; color: var(--muted); font-size: 0.92rem; margin: 0; }
+    .status--ok { color: var(--accent); }
+    .status--warn { color: var(--warn); }
+    .status--error { color: var(--danger); }
+    .errbox {
+      border: 1px solid rgba(251,113,133,.45); background: rgba(251,113,133,.08); border-radius: 12px;
+      padding: 12px 14px; display: grid; gap: 8px;
+    }
+    .errbox[hidden] { display: none; }
+    .errbox .msg { color: #ffd1da; font-weight: 500; }
+    .errbox pre {
+      margin: 0; font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: var(--muted);
+      overflow: auto; white-space: pre; background: var(--bg2); border-radius: 8px; padding: 8px 10px;
+    }
+    .errbox pre .caret { color: var(--danger); font-weight: 700; }
+    .foot { margin-top: 28px; color: var(--muted); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: space-between; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .tab { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .tab[aria-selected="true"] { color: #042016; background: linear-gradient(135deg, var(--accent), #34d399); border-color: transparent; box-shadow: 0 8px 28px var(--glow); }
+    .panel[hidden] { display: none; }
+    textarea.code { min-height: 260px; white-space: pre-wrap; word-break: break-all; }
+    .dropzone {
+      border: 2px dashed var(--border); border-radius: 14px; padding: 28px 16px; text-align: center;
+      color: var(--muted); cursor: pointer; background: var(--bg2); transition: border-color .15s, box-shadow .15s;
+    }
+    .dropzone.over, .dropzone:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+    .fileinfo { font-family: "JetBrains Mono", monospace; font-size: 0.82rem; color: var(--muted); word-break: break-all; }
+    .preview { align-self: flex-start; object-fit: contain; max-width: 100%; max-height: 240px; border-radius: 12px; border: 1px solid var(--border); background: repeating-conic-gradient(#1a2338 0 25%, #121a2b 0 50%) 50% / 20px 20px; }
+    .preview[hidden] { display: none; }
+    input[type="text"].txt {
+      background: var(--bg2); color: var(--text); border: 1px solid var(--border); border-radius: 12px;
+      padding: 11px 14px; font: inherit; min-width: 200px;
+    }
+    input[type="text"].txt:focus { outline: none; border-color: var(--accent2); }
+    .out {
+      display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap;
+    }
+    .out input.pw {
+      flex: 1 1 320px; min-width: 0; background: var(--bg2); color: var(--text); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px; font-family: "JetBrains Mono", monospace; font-size: 1.15rem; letter-spacing: .02em;
+    }
+    .out input.pw:focus { outline: none; border-color: var(--accent2); }
+    .meter { height: 10px; border-radius: 999px; background: var(--bg2); border: 1px solid var(--border); overflow: hidden; }
+    .meter > span { display: block; height: 100%; width: 0; transition: width .2s, background .2s; border-radius: 999px; }
+    .strength { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 0.9rem; color: var(--muted); }
+    .strength strong { color: var(--text); }
+    .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 4px 18px; }
+    .range { display: flex; gap: 12px; align-items: center; }
+    .range input[type="range"] { flex: 1; accent-color: var(--accent); }
+    .range input[type="number"], input[type="number"].num {
+      width: 84px; background: var(--bg2); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; font: inherit;
+    }
+    ol.list { margin: 0; padding: 0 0 0 2.4em; font-family: "JetBrains Mono", monospace; font-size: 0.9rem; display: grid; gap: 4px; max-height: 320px; overflow: auto; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding-top: 10px; padding-bottom: 10px; }
+    ol.list li { word-break: break-all; color: var(--text); }
+    ol.list li::marker { color: var(--muted); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; }
+    @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+    details.tips { margin-top: 22px; color: var(--muted); }
+    details.tips summary { cursor: pointer; color: var(--text); font-weight: 600; }
+    details.tips ul { margin: 10px 0 0; padding-left: 1.2em; display: grid; gap: 6px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topnav">
+      <a class="brand" href="../../index.html">
+        <span class="logo">AT</span>
+        <span>Herramientas web</span>
+      </a>
+      <span class="pill">16 nov 2026</span>
+    </div>
+
+    <h1>Generador de contraseñas seguras</h1>
+    <p class="lead">Crea contraseñas aleatorias, frases de contraseña fáciles de recordar (en español) o PIN numéricos usando la aleatoriedad criptográfica de tu navegador. También puedes analizar la fortaleza de una contraseña que ya tengas.</p>
+
+    <div class="privacy" role="note">
+      <span aria-hidden="true">🔒</span>
+      <div>
+        <strong>Privacidad:</strong> las contraseñas se generan con <code>crypto.getRandomValues</code> y <em>nunca salen de tu dispositivo</em>.
+        No se guardan ni se envían a ningún servidor.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab" role="tab" data-mode="password" aria-selected="true">🔑 Contraseña</button>
+        <button type="button" class="tab" role="tab" data-mode="passphrase" aria-selected="false">📝 Frase de contraseña</button>
+        <button type="button" class="tab" role="tab" data-mode="pin" aria-selected="false">🔢 PIN</button>
+        <button type="button" class="tab" role="tab" data-mode="check" aria-selected="false">🛡️ Analizar</button>
+      </div>
+
+      <div id="genArea">
+        <div class="pane">
+          <div class="out">
+            <input id="output" class="pw" type="text" readonly spellcheck="false" autocomplete="off" aria-label="Contraseña generada" />
+            <button type="button" id="copyBtn" class="ghost">📋 Copiar</button>
+            <button type="button" id="genBtn" class="primary">🔄 Generar</button>
+          </div>
+          <div class="meter" aria-hidden="true"><span id="meterBar"></span></div>
+          <div class="strength">
+            <span>Fortaleza: <strong id="strengthLabel">—</strong></span>
+            <span>Entropía: <strong id="entropy">—</strong></span>
+            <span>Tiempo estimado para descifrarla: <strong id="crackTime">—</strong></span>
+          </div>
+          <p id="status" class="status" aria-live="polite"></p>
+        </div>
+
+        <div class="section">
+          <div class="panel" data-panel="password">
+            <div class="grid2">
+              <label class="field">Longitud
+                <span class="range"><input id="pwLen" type="range" min="4" max="128" value="20" /><input id="pwLenNum" type="number" min="4" max="128" value="20" aria-label="Longitud" /></span>
+              </label>
+              <label class="field">Excluir caracteres específicos
+                <input id="pwExclude" type="text" class="txt" spellcheck="false" autocomplete="off" placeholder="p. ej. {}[]&quot;'" />
+              </label>
+            </div>
+            <div class="opts">
+              <label class="check"><input id="pwUpper" type="checkbox" checked /> Mayúsculas (A‑Z)</label>
+              <label class="check"><input id="pwLower" type="checkbox" checked /> Minúsculas (a‑z)</label>
+              <label class="check"><input id="pwDigits" type="checkbox" checked /> Números (0‑9)</label>
+              <label class="check"><input id="pwSymbols" type="checkbox" checked /> Símbolos (!@#$%…)</label>
+              <label class="check"><input id="pwAmbiguous" type="checkbox" /> Evitar ambiguos (Il1O0o)</label>
+              <label class="check"><input id="pwEach" type="checkbox" checked /> Al menos uno de cada tipo</label>
+            </div>
+          </div>
+
+          <div class="panel" data-panel="passphrase" hidden>
+            <div class="grid2">
+              <label class="field">Número de palabras
+                <span class="range"><input id="ppWords" type="range" min="3" max="12" value="5" /><input id="ppWordsNum" type="number" min="3" max="12" value="5" aria-label="Número de palabras" /></span>
+              </label>
+              <label class="field">Separador
+                <select id="ppSep">
+                  <option value="-">Guion (-)</option>
+                  <option value=".">Punto (.)</option>
+                  <option value="_">Guion bajo (_)</option>
+                  <option value=" ">Espacio</option>
+                  <option value="">Ninguno</option>
+                </select>
+              </label>
+            </div>
+            <div class="opts">
+              <label class="check"><input id="ppCap" type="checkbox" checked /> Primera letra en mayúscula</label>
+              <label class="check"><input id="ppNum" type="checkbox" checked /> Añadir un número</label>
+            </div>
+            <p class="meta">Lista de 8.192 palabras en español (13 bits por palabra) · <a href="https://github.com/ulif/diceware" target="_blank" rel="noopener">diceware</a>, CC BY 4.0.</p>
+          </div>
+
+          <div class="panel" data-panel="pin" hidden>
+            <label class="field">Número de dígitos
+              <span class="range"><input id="pinLen" type="range" min="4" max="12" value="6" /><input id="pinLenNum" type="number" min="4" max="12" value="6" aria-label="Número de dígitos" /></span>
+            </label>
+            <label class="check"><input id="pinNoTrivial" type="checkbox" checked /> Evitar PIN triviales (1234, 0000, 1212…)</label>
+          </div>
+
+          <div class="section" id="bulkBox">
+            <div class="pane-head">
+              <h2>Generar varias</h2>
+              <div class="btnrow" style="align-items:center">
+                <label class="field" style="flex-direction:row;align-items:center;gap:8px">Cantidad <input id="bulkCount" type="number" class="num" min="1" max="100" value="10" /></label>
+                <button type="button" id="bulkBtn" class="ghost small">⚡ Generar lista</button>
+                <button type="button" id="bulkCopy" class="subtle small" disabled>📋 Copiar todo</button>
+                <button type="button" id="bulkDownload" class="subtle small" disabled>⬇️ Descargar .txt</button>
+              </div>
+            </div>
+            <ol id="bulkList" class="list" hidden></ol>
+          </div>
+        </div>
+      </div>
+
+      <div id="checkArea" class="panel" data-panel="check" hidden>
+        <div class="pane">
+          <label class="field">Escribe o pega una contraseña para analizarla
+            <span class="out"><input id="checkInput" class="pw" type="password" spellcheck="false" autocomplete="off" aria-label="Contraseña a analizar" placeholder="Tu contraseña" />
+            <button type="button" id="toggleVis" class="subtle">👁️ Mostrar</button></span>
+          </label>
+          <div class="meter" aria-hidden="true"><span id="checkBar"></span></div>
+          <div class="strength">
+            <span>Fortaleza: <strong id="checkLabel">—</strong></span>
+            <span>Entropía estimada: <strong id="checkEntropy">—</strong></span>
+            <span>Tiempo estimado: <strong id="checkCrack">—</strong></span>
+          </div>
+          <ul id="checkTips" class="meta" style="margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px"></ul>
+        </div>
+      </div>
+    </div>
+
+    <details class="tips">
+      <summary>Consejos para contraseñas seguras</summary>
+      <ul>
+        <li>Usa una contraseña distinta para cada servicio y guárdalas en un gestor de contraseñas.</li>
+        <li>Apunta a 80 bits de entropía o más para cuentas importantes (p. ej. 16+ caracteres aleatorios o 6+ palabras).</li>
+        <li>Las frases de contraseña son más fáciles de recordar y escribir, y siguen siendo muy seguras si las palabras son aleatorias.</li>
+        <li>Activa la verificación en dos pasos (2FA) siempre que puedas.</li>
+        <li>El tiempo estimado supone un ataque fuera de línea de 10 mil millones de intentos por segundo; es orientativo.</li>
+      </ul>
+    </details>
+
+    <div class="foot">
+      <span>Parte de <a href="../../index.html">Herramientas web · Andrey Tech</a></span>
+      <span>JavaScript puro + Web Crypto · Sin servidores</span>
+    </div>
+  </div>
+  <script src="vendor/palabras-es.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

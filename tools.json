@@ -54,5 +54,13 @@
     "name": "Decodificador de JWT",
     "description": "Decodifica tokens JWT para ver encabezado, payload y claims con fechas legibles, detecta si expiraron y verifica firmas HMAC (HS256/384/512). Todo ocurre en tu navegador.",
     "path": "tools/07-decodificador-jwt/"
+  },
+  {
+    "day": 8,
+    "date": "2026-11-16",
+    "slug": "generador-de-contrasenas",
+    "name": "Generador de contraseñas seguras",
+    "description": "Genera contraseñas aleatorias, frases de contraseña en español y PIN con aleatoriedad criptográfica, mide su fortaleza y analiza las tuyas. Todo ocurre en tu navegador.",
+    "path": "tools/08-generador-de-contrasenas/"
   }
 ]
