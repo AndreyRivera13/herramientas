@@ -62,5 +62,13 @@
     "name": "Generador de contraseñas seguras",
     "description": "Genera contraseñas aleatorias, frases de contraseña en español y PIN con aleatoriedad criptográfica, mide su fortaleza y analiza las tuyas. Todo ocurre en tu navegador.",
     "path": "tools/08-generador-de-contrasenas/"
+  },
+  {
+    "day": 9,
+    "date": "2026-11-18",
+    "slug": "probador-de-regex",
+    "name": "Probador de expresiones regulares",
+    "description": "Prueba expresiones regulares de JavaScript en vivo: resalta coincidencias, muestra grupos numerados y con nombre, previsualiza reemplazos y trae patrones comunes listos para usar. Todo ocurre en tu navegador.",
+    "path": "tools/09-probador-de-regex/"
   }
 ]

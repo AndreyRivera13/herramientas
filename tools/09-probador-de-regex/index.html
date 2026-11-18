@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Probador de expresiones regulares — Herramientas web</title>
+  <meta name="description" content="Prueba expresiones regulares de JavaScript en vivo: resalta coincidencias, muestra grupos con nombre y numerados, y previsualiza reemplazos. Todo ocurre en tu navegador." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg2: #0d1424;
+      --card: #121a2b;
+      --border: #243049;
+      --text: #e8eefc;
+      --muted: #93a0bd;
+      --accent: #6ee7b7;
+      --accent2: #38bdf8;
+      --danger: #fb7185;
+      --warn: #fbbf24;
+      --glow: rgba(110, 231, 183, 0.25);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(56, 189, 248, 0.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(110, 231, 183, 0.14), transparent 55%),
+        var(--bg);
+      line-height: 1.5;
+    }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 28px 20px 64px; }
+    .topnav { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 600; }
+    .brand:hover { text-decoration: none; }
+    .logo {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: grid; place-items: center; color: #041018; font-weight: 700; font-size: 14px;
+      box-shadow: 0 0 24px var(--glow);
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
+      background: rgba(110, 231, 183, 0.1); border: 1px solid rgba(110, 231, 183, 0.35);
+      color: var(--accent); font-size: 13px; font-weight: 500;
+    }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 0 0 8px; letter-spacing: -0.03em; }
+    .lead { color: var(--muted); margin: 0 0 24px; font-size: 1.05rem; }
+    .privacy {
+      display: flex; gap: 10px; align-items: flex-start; padding: 14px 16px; border-radius: 14px;
+      background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.28);
+      margin-bottom: 22px; color: #c7e9ff; font-size: 0.95rem;
+    }
+    .privacy strong { color: var(--accent2); }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 40%), var(--card);
+      border: 1px solid var(--border); border-radius: var(--radius); padding: 22px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+    .pane { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+    .pane-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .pane-head h2 { margin: 0; font-size: 1rem; }
+    .meta { color: var(--muted); font-size: 0.8rem; font-family: "JetBrains Mono", monospace; }
+    textarea.code {
+      background: var(--bg2); color: var(--text); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 14px; width: 100%; min-height: 360px; resize: vertical;
+      font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.85rem; line-height: 1.5;
+      tab-size: 4; white-space: pre; overflow: auto;
+    }
+    textarea.code:focus { outline: none; border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(56,189,248,.15); }
+    textarea.code.invalid { border-color: rgba(251,113,133,.6); }
+    textarea.code.valid { border-color: rgba(110,231,183,.5); }
+    .drop { position: relative; }
+    .drop.over textarea.code { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .toolbar .grow { flex: 1 1 auto; }
+    label.field { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; color: var(--muted); }
+    label.check { display: flex; gap: 8px; align-items: center; font-size: 0.92rem; color: var(--muted); cursor: pointer; padding: 10px 0; }
+    label.check input { accent-color: var(--accent); width: 18px; height: 18px; }
+    select {
+      appearance: none; background: var(--bg2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%2393a0bd' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E") no-repeat right 12px center;
+      color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 11px 36px 11px 14px; font: inherit;
+    }
+    select:focus { outline: none; border-color: var(--accent2); }
+    button, .btn {
+      appearance: none; border: none; cursor: pointer; font: inherit; font-weight: 600;
+      border-radius: 12px; padding: 11px 16px; transition: transform .12s, opacity .12s, box-shadow .12s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;
+    }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .primary { background: linear-gradient(135deg, var(--accent), #34d399); color: #042016; box-shadow: 0 8px 28px var(--glow); }
+    .primary:hover:not(:disabled) { transform: translateY(-1px); }
+    .ghost { background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #dff4ff; }
+    .ghost:hover:not(:disabled) { background: rgba(56, 189, 248, 0.2); }
+    .subtle { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .subtle:hover:not(:disabled) { color: var(--text); border-color: var(--accent2); }
+    .small { padding: 7px 12px; font-size: 0.85rem; border-radius: 10px; }
+    .btnrow { display: flex; flex-wrap: wrap; gap: 8px; }
+    input[type="file"] { display: none; }
+    .status { min-height: 1.4em; color: var(--muted); font-size: 0.92rem; margin: 0; }
+    .status--ok { color: var(--accent); }
+    .status--warn { color: var(--warn); }
+    .status--error { color: var(--danger); }
+    .errbox {
+      border: 1px solid rgba(251,113,133,.45); background: rgba(251,113,133,.08); border-radius: 12px;
+      padding: 12px 14px; display: grid; gap: 8px;
+    }
+    .errbox[hidden] { display: none; }
+    .errbox .msg { color: #ffd1da; font-weight: 500; }
+    .errbox pre {
+      margin: 0; font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: var(--muted);
+      overflow: auto; white-space: pre; background: var(--bg2); border-radius: 8px; padding: 8px 10px;
+    }
+    .errbox pre .caret { color: var(--danger); font-weight: 700; }
+    .foot { margin-top: 28px; color: var(--muted); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: space-between; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .tab { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .tab[aria-selected="true"] { color: #042016; background: linear-gradient(135deg, var(--accent), #34d399); border-color: transparent; box-shadow: 0 8px 28px var(--glow); }
+    .panel[hidden] { display: none; }
+    textarea.code { min-height: 260px; white-space: pre-wrap; word-break: break-all; }
+    .dropzone {
+      border: 2px dashed var(--border); border-radius: 14px; padding: 28px 16px; text-align: center;
+      color: var(--muted); cursor: pointer; background: var(--bg2); transition: border-color .15s, box-shadow .15s;
+    }
+    .dropzone.over, .dropzone:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+    .fileinfo { font-family: "JetBrains Mono", monospace; font-size: 0.82rem; color: var(--muted); word-break: break-all; }
+    .preview { align-self: flex-start; object-fit: contain; max-width: 100%; max-height: 240px; border-radius: 12px; border: 1px solid var(--border); background: repeating-conic-gradient(#1a2338 0 25%, #121a2b 0 50%) 50% / 20px 20px; }
+    .preview[hidden] { display: none; }
+    input[type="text"].txt {
+      background: var(--bg2); color: var(--text); border: 1px solid var(--border); border-radius: 12px;
+      padding: 11px 14px; font: inherit; min-width: 200px;
+    }
+    input[type="text"].txt:focus { outline: none; border-color: var(--accent2); }
+    .out {
+      display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap;
+    }
+    .out input.pw {
+      flex: 1 1 320px; min-width: 0; background: var(--bg2); color: var(--text); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px; font-family: "JetBrains Mono", monospace; font-size: 1.15rem; letter-spacing: .02em;
+    }
+    .out input.pw:focus { outline: none; border-color: var(--accent2); }
+    .meter { height: 10px; border-radius: 999px; background: var(--bg2); border: 1px solid var(--border); overflow: hidden; }
+    .meter > span { display: block; height: 100%; width: 0; transition: width .2s, background .2s; border-radius: 999px; }
+    .strength { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 0.9rem; color: var(--muted); }
+    .strength strong { color: var(--text); }
+    .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 4px 18px; }
+    .range { display: flex; gap: 12px; align-items: center; }
+    .range input[type="range"] { flex: 1; accent-color: var(--accent); }
+    .range input[type="number"], input[type="number"].num {
+      width: 84px; background: var(--bg2); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; font: inherit;
+    }
+    ol.list { margin: 0; padding: 0 0 0 2.4em; font-family: "JetBrains Mono", monospace; font-size: 0.9rem; display: grid; gap: 4px; max-height: 320px; overflow: auto; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding-top: 10px; padding-bottom: 10px; }
+    ol.list li { word-break: break-all; color: var(--text); }
+    ol.list li::marker { color: var(--muted); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; }
+    @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+    details.tips { margin-top: 22px; color: var(--muted); }
+    details.tips summary { cursor: pointer; color: var(--text); font-weight: 600; }
+    details.tips ul { margin: 10px 0 0; padding-left: 1.2em; display: grid; gap: 6px; }
+    /* --- Probador de regex --- */
+    .rx {
+      display: flex; align-items: stretch; background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; font-family: "JetBrains Mono", monospace; font-size: 1rem;
+    }
+    .rx:focus-within { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(56,189,248,.15); }
+    .rx.invalid { border-color: rgba(251,113,133,.6); }
+    .rx .slash { color: var(--muted); padding: 12px 6px 12px 14px; user-select: none; }
+    .rx .slash.end { padding: 12px 2px 12px 6px; }
+    .rx input { flex: 1; min-width: 0; background: transparent; border: none; color: var(--text); font: inherit; padding: 12px 4px; }
+    .rx input:focus { outline: none; }
+    .rx input.flags { flex: 0 0 90px; color: var(--accent); padding-right: 14px; }
+    .flagrow { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+    .flagrow label.check { padding: 4px 0; font-size: 0.88rem; }
+    .flagrow code { color: var(--accent); }
+    .hl {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px;
+      font-family: "JetBrains Mono", monospace; font-size: 0.85rem; line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+      min-height: 120px; max-height: 420px; overflow: auto;
+    }
+    .hl mark { background: rgba(110,231,183,.28); color: #eafff6; border-radius: 4px; box-shadow: 0 0 0 1px rgba(110,231,183,.55); padding: 1px 0; }
+    .hl mark.alt { background: rgba(56,189,248,.28); color: #e6f7ff; box-shadow: 0 0 0 1px rgba(56,189,248,.55); }
+    .hl mark.empty { padding: 0 1px; background: var(--warn); }
+    .matches { display: grid; gap: 8px; max-height: 420px; overflow: auto; }
+    .match { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; font-size: 0.85rem; }
+    .match .mh { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-family: "JetBrains Mono", monospace; font-size: 0.78rem; }
+    .match .mv { font-family: "JetBrains Mono", monospace; color: var(--text); word-break: break-all; margin-top: 4px; }
+    .match table { width: 100%; border-collapse: collapse; margin-top: 6px; font-family: "JetBrains Mono", monospace; font-size: 0.8rem; }
+    .match td { padding: 3px 6px; border-top: 1px solid var(--border); vertical-align: top; word-break: break-all; }
+    .match td:first-child { color: var(--accent2); white-space: nowrap; width: 1%; }
+    .match td.undef { color: var(--muted); font-style: italic; }
+    .presets { display: flex; flex-wrap: wrap; gap: 6px; }
+    .section { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); display: grid; gap: 10px; }
+    .count { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: 0.85rem; }
+    .cheat { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 4px 18px; margin-top: 10px; font-size: 0.88rem; }
+    .cheat code { color: var(--accent); font-family: "JetBrains Mono", monospace; margin-right: 6px; }
+    textarea.code.small { min-height: 70px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topnav">
+      <a class="brand" href="../../index.html">
+        <span class="logo">AT</span>
+        <span>Herramientas web</span>
+      </a>
+      <span class="pill">18 nov 2026</span>
+    </div>
+
+    <h1>Probador de expresiones regulares</h1>
+    <p class="lead">Escribe una expresión regular (sintaxis de JavaScript) y mira al instante qué partes del texto coinciden, con sus grupos numerados y con nombre. También puedes previsualizar reemplazos y empezar desde patrones comunes.</p>
+
+    <div class="privacy" role="note">
+      <span aria-hidden="true">🔒</span>
+      <div>
+        <strong>Privacidad:</strong> la expresión y el texto se evalúan <em>en tu dispositivo</em>, en un proceso aparte que se detiene si un patrón tarda demasiado.
+        Nada se envía a ningún servidor.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pane">
+        <div class="pane-head">
+          <h2>Expresión regular</h2>
+          <span class="meta" id="rxInfo"></span>
+        </div>
+        <div class="rx" id="rxBox">
+          <span class="slash">/</span>
+          <input id="pattern" type="text" spellcheck="false" autocomplete="off" aria-label="Patrón" placeholder="\b\w+@\w+\.\w+\b" />
+          <span class="slash end">/</span>
+          <input id="flags" class="flags" type="text" spellcheck="false" autocomplete="off" aria-label="Banderas" value="g" />
+        </div>
+        <div class="flagrow" id="flagChecks">
+          <label class="check"><input type="checkbox" data-flag="g" checked /> <code>g</code> global</label>
+          <label class="check"><input type="checkbox" data-flag="i" /> <code>i</code> ignorar mayúsculas</label>
+          <label class="check"><input type="checkbox" data-flag="m" /> <code>m</code> multilínea</label>
+          <label class="check"><input type="checkbox" data-flag="s" /> <code>s</code> punto incluye saltos</label>
+          <label class="check"><input type="checkbox" data-flag="u" /> <code>u</code> Unicode</label>
+          <label class="check"><input type="checkbox" data-flag="y" /> <code>y</code> anclada (sticky)</label>
+        </div>
+        <div class="errbox" id="errBox" hidden><div class="msg" id="errMsg"></div></div>
+        <div class="pane-head">
+          <span class="meta">Patrones comunes:</span>
+        </div>
+        <div class="presets" id="presets"></div>
+      </div>
+
+      <div class="layout section">
+        <div class="pane">
+          <div class="pane-head">
+            <h2>Texto de prueba</h2>
+            <div class="btnrow">
+              <button type="button" id="sampleBtn" class="subtle small">✨ Ejemplo</button>
+              <button type="button" id="clearBtn" class="subtle small">🧹 Limpiar</button>
+            </div>
+          </div>
+          <textarea id="text" class="code" spellcheck="false" aria-label="Texto de prueba" placeholder="Pega aquí el texto donde quieres buscar…"></textarea>
+        </div>
+        <div class="pane">
+          <div class="pane-head">
+            <h2>Coincidencias resaltadas</h2>
+            <span class="count" id="count">—</span>
+          </div>
+          <div class="hl" id="highlight" aria-live="polite"></div>
+          <p id="status" class="status" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="pane-head">
+          <h2>Detalle de coincidencias y grupos</h2>
+          <div class="btnrow">
+            <button type="button" id="copyMatches" class="subtle small" disabled>📋 Copiar coincidencias</button>
+            <button type="button" id="copyJson" class="subtle small" disabled>{ } Copiar como JSON</button>
+          </div>
+        </div>
+        <div class="matches" id="matches"><p class="meta">Aún no hay coincidencias.</p></div>
+      </div>
+
+      <div class="section">
+        <div class="pane-head">
+          <h2>Reemplazo</h2>
+          <span class="meta">Usa $1, $2… o $&lt;nombre&gt;; $&amp; es la coincidencia completa.</span>
+        </div>
+        <div class="rx">
+          <span class="slash">→</span>
+          <input id="replacement" type="text" spellcheck="false" autocomplete="off" aria-label="Texto de reemplazo" placeholder="p. ej. [$1]" />
+        </div>
+        <textarea id="replaced" class="code small" readonly spellcheck="false" aria-label="Resultado del reemplazo"></textarea>
+        <div class="btnrow">
+          <button type="button" id="copyReplaced" class="ghost small">📋 Copiar resultado</button>
+          <button type="button" id="copyLink" class="subtle small">🔗 Copiar enlace con esta expresión</button>
+          <button type="button" id="copyCode" class="subtle small">⟨/⟩ Copiar como código JS</button>
+        </div>
+      </div>
+    </div>
+
+    <details class="tips">
+      <summary>Chuleta rápida de sintaxis</summary>
+      <div class="cheat">
+        <div><code>.</code> cualquier carácter (salvo salto de línea)</div>
+        <div><code>\d \w \s</code> dígito, palabra, espacio</div>
+        <div><code>\D \W \S</code> lo contrario de los anteriores</div>
+        <div><code>\b</code> límite de palabra</div>
+        <div><code>^ $</code> inicio y fin (de línea con <code>m</code>)</div>
+        <div><code>[abc] [^abc]</code> conjunto / negación</div>
+        <div><code>[a-z0-9]</code> rangos</div>
+        <div><code>a* a+ a?</code> 0+, 1+, 0 o 1 veces</div>
+        <div><code>a{2,5}</code> entre 2 y 5 veces</div>
+        <div><code>a+?</code> versión perezosa (lazy)</div>
+        <div><code>(…)</code> grupo de captura</div>
+        <div><code>(?&lt;año&gt;…)</code> grupo con nombre</div>
+        <div><code>(?:…)</code> grupo sin captura</div>
+        <div><code>a|b</code> alternativa</div>
+        <div><code>(?=…) (?!…)</code> lookahead positivo / negativo</div>
+        <div><code>(?&lt;=…) (?&lt;!…)</code> lookbehind</div>
+        <div><code>\1 \k&lt;año&gt;</code> referencia a un grupo</div>
+        <div><code>\p{L}</code> cualquier letra (requiere <code>u</code>)</div>
+      </div>
+    </details>
+
+    <div class="foot">
+      <span>Parte de <a href="../../index.html">Herramientas web · Andrey Tech</a></span>
+      <span>Motor de expresiones regulares de tu navegador · Sin servidores</span>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

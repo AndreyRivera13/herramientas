@@ -10,7 +10,7 @@ Lista ordenada de ideas. Todas deben ser **100% en el navegador** y legales
 5. ~~Codificador / decodificador Base64 (texto y archivos)~~ ✅ (2026-11-14)
 6. ~~Decodificador de JWT (solo lectura del payload, sin verificar firma en servidor)~~ ✅ (2026-11-15)
 7. ~~Generador de contraseñas seguras~~ ✅ (2026-11-16)
-8. Probador de expresiones regulares (regex)
+8. ~~Probador de expresiones regulares (regex)~~ ✅ (2026-11-18)
 9. Conversor de unidades (longitud, peso, temperatura, datos)
 10. Selector de color + paleta (HEX/RGB/HSL)
 11. Diff de texto (comparar dos bloques)

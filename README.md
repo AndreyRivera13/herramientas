@@ -14,6 +14,7 @@ Todas corren **100% en el navegador**: tus archivos no se suben a ningún servid
 - Codificador y decodificador Base64: https://andreyrivera13.github.io/herramientas/tools/06-base64/
 - Decodificador de JWT: https://andreyrivera13.github.io/herramientas/tools/07-decodificador-jwt/
 - Generador de contraseñas seguras: https://andreyrivera13.github.io/herramientas/tools/08-generador-de-contrasenas/
+- Probador de expresiones regulares: https://andreyrivera13.github.io/herramientas/tools/09-probador-de-regex/
 
 ## Estructura
 
